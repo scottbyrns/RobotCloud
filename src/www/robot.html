@@ -1,0 +1,39 @@
+<html ng-app="RobotDashboard">
+
+<head>
+
+
+<link rel="stylesheet" type="text/css" href="app.css">
+
+</head>
+
+<body ng-controller="AccountController">
+	
+
+<header ng-controller="CareTakerController">
+	<a href="caretaker.html">
+		<img src="{{caretaker.credentials.avatar}}" class="avatar" />
+		<h3>{{caretaker.name}}</h3>
+	</a>
+
+	<span class="notifications-count">
+		Notifications:
+	{{caretaker.notifications.length}}
+	</span>
+</header>
+
+<section id="robot-overview" ng-controller="RobotOverviewController">
+<img src="{{robot.avatar}}" class="robot-avatar" />
+<h1>{{robot.name}}</h1>
+<p>
+	{{robot.description}}
+</p>	
+</section>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+
+<script src="app.js">
+</script>
+
+</body>
