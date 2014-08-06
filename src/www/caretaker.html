@@ -2,25 +2,53 @@
 
 <head>
 <link rel="stylesheet" type="text/css" href="app.css">
-
+<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 </head>
 
 <body ng-controller="AccountController">
 	
 
 <header ng-controller="CareTakerController">
-	<a href="caretaker.html">
-		<img src="{{caretaker.credentials.avatar}}" class="avatar" />
-		<h3>{{caretaker.name}}</h3>
-	</a>
-	<span class="notifications-count">
-		Notifications:
-	{{caretaker.notifications.length}}
-	</span>
+	
+	<div class="row">
+	  <div class="col-md-3">
+
+			<a href="caretaker.html">
+				<img src="{{caretaker.credentials.avatar}}" class="avatar" />
+				<h3>{{caretaker.name}}</h3>
+			</a>
+	
+	  </div>
+	  
+	
+	  <div class="col-md-3">
+		  <button type="button" class="btn btn-default" ng-click="addRobot()">Add Robot</button>
+		  <button type="button" class="btn btn-default" ng-click="settings()">Settings</button>
+	  </div>
+	  
+  		  <div class="col-md-2">
+  		Notifications
+		<span class="badge">{{caretaker.notifications.length}}</span>
+  	
+		</div>
+	</div>
+	
+	
+	
+	
+	
+  
+  
+
 </header>
 
 <section id="active-robots" ng-controller="RobotsList">
-	<h3>Robots</h3>
+	<!-- <div class="row"> -->
+	  <!-- <div class="col-md-3"> -->
+			<h3>Robots</h3>
+	  <!-- </div> -->
+
+	<!-- </div> -->
 	<ul class="robot-list">
 		
 		<li data-ng-repeat="robot in robots" ng-click="showRobot($index)">
@@ -34,6 +62,7 @@
 </section>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 <script src="app.js">
 </script>
