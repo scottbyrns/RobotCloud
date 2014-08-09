@@ -1,5 +1,5 @@
 var restify = require('restify');
-
+var md5 = require('MD5');
 
 var guid = (function() {
   function s4() {
@@ -107,6 +107,66 @@ function createServer (db) {
 		})
 		
 	});
+	
+	
+	server.post('/robot/delete', function (req, res, next) {
+		
+
+		validateToken(req.params.token, function (valid) {
+			if (valid) {
+				
+				var robot = req.params.robot;
+				// robot.id = guid();
+				console.log(robot);
+				db.update({"user.token": req.params.token}, { $pull: { robots: robot } }, {}, function (err, numberUpdated) {
+					
+					if (!err && numberUpdated > 0) {
+		  			    res.setHeader('Access-Control-Allow-Origin','*');
+		  			    res.send(201, req.params);
+		  				next();						
+					}
+					
+					else {
+		  			    res.setHeader('Access-Control-Allow-Origin','*');
+		  			    res.send(500, req.params);
+		  				next();
+					}
+
+				});
+				
+				
+			}
+			else {
+			    res.setHeader('Access-Control-Allow-Origin','*');
+			    res.send(400, API.NotAuthorized);
+				next();
+			}
+		});
+		
+		
+		
+		//
+		// 	    res.setHeader('Access-Control-Allow-Origin','*');
+		// 	    res.send(201, "");
+		//
+		// return next();
+		// console.log(req.params);
+		db.find({"robots.id": req.params.id}, function (err, doc) {
+			// console.log(arguments)
+			if (doc.length > 0) {
+			    res.setHeader('Access-Control-Allow-Origin','*');
+				for (var i =0, len = doc[0].robots.length; i < len; i += 1) {
+					if (doc[0].robots[i].id == req.params.id) {
+						res.send(200, doc[0].robots[i]);						
+					}
+
+				}
+				return next();
+			}
+
+		})
+		
+	});
 	//
 	// server.get('/user/:username/robots', function (req, res, next) {
 	//
@@ -204,16 +264,18 @@ function createServer (db) {
 	server.post('/user/logout', function (req, res, next) {
 		
 		db.find({"user.username": req.params.username}, function (err, doc) {
-
+			
 		    res.setHeader('Access-Control-Allow-Origin','*');
 		    res.send(201, doc[0]);
 			
 			return next();
-		})
+			
+		});
 		
 	});
 	
 	server.post('/user/create', function (req, res, next) {
+				console.log(md5(req.params.email));
 		console.log(req.params);
 		
 	  if (req.params.name === undefined) {
@@ -234,6 +296,7 @@ function createServer (db) {
 	  		  password: password,
 	  		  email: email,
 	  		  name: name,
+			  avatar: md5(email),
 			  robots: []
 	  	  }
 	  	  }, function (err, newDoc) {   // Callback is optional

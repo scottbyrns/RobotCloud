@@ -73,7 +73,10 @@ robotDashboard.controller('CareTakerController', function ($scope, $http) {
 	}).success(function (data) {
 		
 		$scope.caretaker.name = data.user.name;
+		$scope.caretaker.credentials.avatar = "http://gravatar.com/avatar/" + data.user.avatar;
 		console.log("post",data)
+		
+		
 		
   }).error(function () {
 	  alert("Failure");
@@ -105,7 +108,15 @@ $scope.addRobot = function () {
 	$scope.settings = function () {
 		window.location.href="settings.html";
 	};
+	
+	$scope.dashboard = function () {
+		window.location.href="caretaker.html";
+	};
+	
 });
+
+	
+
 
 robotDashboard.controller('RobotOverviewController', function ($scope, $http) {
   $scope.robot = {
@@ -116,7 +127,7 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http) {
   	$http({
 		method: 'POST',
 		url: "http://" + Server.path + ":" + Server.port + "/robot/id",
-	      data: $.param({id:location.hash.replace("#","")}),
+	      data: $.param({id:location.hash.replace("#","").replace("/", "")}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (data) {
 		console.log("Robots", data)
@@ -166,12 +177,30 @@ robotDashboard.controller('RegisterController', function ($scope, $http) {
 	
 	$scope.register = function () {
 		$http({
+			
 			method: 'POST',
 			url: "http://" + Server.path + ":" + Server.port + "/user/create",
 			data: $.param($scope.user),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			
 		}).success(function () {
-		  alert("Success");
+			
+			$http({
+				method: 'POST',
+				url: "http://" + Server.path + ":" + Server.port + "/user/login",
+				data: $.param($scope.user),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				
+			}).success(function (data) {
+				
+				localStorage.setItem("authkey", data.replace("\"", '').replace("\"", ''));
+				localStorage.setItem("username", $scope.user.username);
+				window.location.href = "caretaker.html";
+				
+		  }).error(function () {
+			  alert("Failure to login");
+		  })
+		  
 	  }).error(function () {
 		  alert("Failure");
 	  })
@@ -186,7 +215,7 @@ robotDashboard.controller('RobotCreator', function ($scope, $http) {
   $scope.robot = {
 	  name: "",
 	  description: "",
-	  avatar: ""
+	  avatar: "/images/robot.jpg"
   };
   
   $scope.addRobot = function () {
@@ -194,7 +223,7 @@ robotDashboard.controller('RobotCreator', function ($scope, $http) {
 	  $http({
 	      method: 'POST',
 	      url: "http://" + Server.path + ":" + Server.port + "/robot/create",
-	      data: $.param({robot:$scope.robot, token:localStorage.authkey}),
+	      data: $.param({robot:$scope.robot, token:localStorage.getItem("authkey")}),
 	      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function (data) {
 		  window.location.href = "caretaker.html";
@@ -203,4 +232,53 @@ robotDashboard.controller('RobotCreator', function ($scope, $http) {
 		  console.log(data);
 	  });
   }
+});
+
+
+
+
+	
+
+
+robotDashboard.controller('RobotController', function ($scope, $http) {
+  $scope.robot = {
+	  name: "Loading...",
+	  description: "",
+	  avatar: "",
+	  id: "",
+  }
+  	$http({
+		method: 'POST',
+		url: "http://" + Server.path + ":" + Server.port + "/robot/id",
+	      data: $.param({id:location.hash.replace("#","").replace("/", "")}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function (data) {
+		console.log("Robots", data)
+		$scope.robot = data;
+	}).error(function (data) {
+	  alert("Failure");
+	});
+	
+	
+	$scope.update = function () {
+		alert("TODO")
+	};
+	
+	$scope.remove = function () {
+
+		
+	  	$http({
+			method: 'POST',
+			url: "http://" + Server.path + ":" + Server.port + "/robot/delete",
+			//{id:location.hash.replace("#","").replace("/", "")}
+		      data: $.param({robot:$scope.robot, token:localStorage.getItem("authkey") }),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function (data) {
+			window.location.href = "caretaker.html";
+		}).error(function (data) {
+		  alert("Failure");
+		});
+	
+	};
+  
 });

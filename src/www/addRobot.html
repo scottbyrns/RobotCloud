@@ -8,16 +8,7 @@
 <body ng-controller="AccountController">
 	
 
-<header ng-controller="CareTakerController">
-	<a href="caretaker.html">
-		<img src="{{caretaker.credentials.avatar}}" class="avatar" />
-		<h3>{{caretaker.name}}</h3>
-	</a>
-	<span class="notifications-count">
-		Notifications:
-	{{caretaker.notifications.length}}
-	</span>
-</header>
+<header ng-include="'views/header.html'" ng-controller="CareTakerController"></header>
 
 <section id="active-robots" ng-controller="RobotCreator">
 
@@ -35,10 +26,17 @@
       <input type="text" class="form-control" id="inputPassword3" placeholder="" ng-model="robot.description">
     </div>
   </div>
+  
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">Avatar URL</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputPassword3" placeholder="" ng-model="robot.avatar">
+    </div>
+  </div>
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" ng-click="addRobot()">Add</button>
+      <button type="submit" class="btn btn-default" ng-click="addRobot()"><span class="glyphicon glyphicon-plus"></span>Add</button>
     </div>
   </div>
 </form>

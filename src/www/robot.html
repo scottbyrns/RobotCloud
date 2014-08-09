@@ -5,24 +5,14 @@
 
 
 <link rel="stylesheet" type="text/css" href="app.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="libs/bootstrap.min.css">
 
 </head>
 
 <body ng-controller="AccountController">
 	
 
-<header ng-controller="CareTakerController">
-	<a href="caretaker.html">
-		<img src="{{caretaker.credentials.avatar}}" class="avatar" />
-		<h3>{{caretaker.name}}</h3>
-	</a>
-
-	<span class="notifications-count">
-		Notifications:
-	{{caretaker.notifications.length}}
-	</span>
-</header>
+<header ng-include="'views/header.html'" ng-controller="CareTakerController"></header>
 
 <section id="robot-overview" ng-controller="RobotOverviewController">
 <img src="{{robot.avatar}}" class="robot-avatar" />
@@ -32,14 +22,25 @@
 </p>	
 </section>
 
+<section class="row" ng-controller="RobotController">
+	
+	  <div class="col-md-9 btn-group">
+
+		  <button type="button" class="btn btn-default" ng-click="update()"><span class="glyphicon glyphicon-plus"></span>Update</button>		  
+		  <button type="button" class="btn btn-default" ng-click="remove()"><span class="glyphicon glyphicon-th-list"></span>Remove</button>
+		  
+	  </div>
+	
+</section>
 
 
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
-	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+	<script src="libs/angular.min.js"></script>
+	<script src="libs/jquery-2.1.1.min.js"></script>
 
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-	<script src="app.js"></script>
-
-
+	<script src="app.js">
+	<script src="js/RobotController.js">
+	</script>
 </body>
