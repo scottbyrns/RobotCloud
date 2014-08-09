@@ -1,12 +1,20 @@
 var Server = {
 	path: "localhost",
-	port: "9393"
+	port: "9392"
 };
+
+// if (localStorage.getItem("authkey")) {
+// 	alert("authenticated");
+// }
 
 
 var robotDashboard = angular.module('RobotDashboard', []);
 
 robotDashboard.controller('AccountController', function ($scope, $http) {
+	
+	if (localStorage.getItem("authkey") && localStorage.getItem("authkey") !== "undefined" && document.getElementById("login-form")) {
+		window.location.href = "caretaker.html";
+	}
 	
 	$scope.username = "";
 	$scope.password = "";
@@ -26,7 +34,11 @@ robotDashboard.controller('AccountController', function ($scope, $http) {
 				password:$scope.password
 			}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-			}).success(function () {
+			}).success(function (data) {
+				
+
+				localStorage.setItem("authkey", data.replace("\"", '').replace("\"", ''));
+				localStorage.setItem("username", $scope.username);
 				window.location.href = "caretaker.html";
 		  }).error(function () {
 			  alert("Failure");
@@ -39,11 +51,11 @@ robotDashboard.controller('AccountController', function ($scope, $http) {
 	
 });
 
-robotDashboard.controller('CareTakerController', function ($scope) {
+robotDashboard.controller('CareTakerController', function ($scope, $http) {
   $scope.caretaker = {
-	  name: "Dave",
+	  name: "",
 	  credentials: {
-		  avatar: "http://www.woodcockswell.ik.org/img/Staff_and_Other_Members/caretaker.jpg"
+		  avatar: ""
 	  },
 	  notifications: [
 	  {},
@@ -51,65 +63,94 @@ robotDashboard.controller('CareTakerController', function ($scope) {
 	  ]
   }
   
+  $http({
+	method: 'POST',
+	url: "http://" + Server.path + ":" + Server.port + "/user",
+	data: $.param({
+		username:localStorage.getItem("username"),
+	}),
+	headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function (data) {
+		
+		$scope.caretaker.name = data.user.name;
+		console.log("post",data)
+		
+  }).error(function () {
+	  alert("Failure");
+  })
+  
 
-	$scope.addRobot = function () {
-		window.location.href="addRobot.html";
-	};
+$scope.logout = function () {
+	$http({
+		method: 'POST',
+		url: "http://" + Server.path + ":" + Server.port + "/user/logout",
+		data: $.param({
+			username:localStorage.getItem("username"),
+		}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function (data) {
+		
+		localStorage.setItem("authkey", undefined);
+		window.location.href = "index.html";
+		
+  }).error(function () {
+	  alert("Failure");
+  })
+};
+
+$scope.addRobot = function () {
+	window.location.href="addRobot.html";
+};
 	
 	$scope.settings = function () {
 		window.location.href="settings.html";
 	};
 });
 
-robotDashboard.controller('RobotOverviewController', function ($scope) {
+robotDashboard.controller('RobotOverviewController', function ($scope, $http) {
   $scope.robot = {
-	  name: "Earthworm Jim",
-	  description: "Automated Earthworm w/ Lasers",
-	  avatar: "http://fc04.deviantart.net/fs12/i/2006/276/8/4/Earthworm_Jim_by_BlackBeret.jpg"
+	  name: "Loading...",
+	  description: "",
+	  avatar: ""
   }
+  	$http({
+		method: 'POST',
+		url: "http://" + Server.path + ":" + Server.port + "/robot/id",
+	      data: $.param({id:location.hash.replace("#","")}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function (data) {
+		console.log("Robots", data)
+		$scope.robot = data;
+	}).error(function (data) {
+	  alert("Failure");
+	})
+  
 });
 
 
-robotDashboard.controller('RobotsList', function ($scope) {
+robotDashboard.controller('RobotsList', function ($scope, $http) {
 	
 	
   $scope.robots = [
-  {
-  	  name: "Earthworm Jim",
-  	  description: "Automated Earthworm w/ Lasers",
-  	  avatar: "http://fc04.deviantart.net/fs12/i/2006/276/8/4/Earthworm_Jim_by_BlackBeret.jpg"
-  },
-  {
-  	  name: "Plantoid",
-  	  description: "Hybrid Organic Robot",
-  	  avatar: "http://www.plantoidrobotics.org/images/thumb/3/37/OrbousandPlantServer.jpg/320px-OrbousandPlantServer.jpg"
-  },
-  {
-  	  name: "Earthworm Jim",
-  	  description: "Automated Earthworm w/ Lasers",
-  	  avatar: "http://fc04.deviantart.net/fs12/i/2006/276/8/4/Earthworm_Jim_by_BlackBeret.jpg"
-  },
-  {
-  	  name: "Plantoid",
-  	  description: "Hybrid Organic Robot",
-  	  avatar: "http://www.plantoidrobotics.org/images/thumb/3/37/OrbousandPlantServer.jpg/320px-OrbousandPlantServer.jpg"
-  },
-  {
-  	  name: "Earthworm Jim",
-  	  description: "Automated Earthworm w/ Lasers",
-  	  avatar: "http://fc04.deviantart.net/fs12/i/2006/276/8/4/Earthworm_Jim_by_BlackBeret.jpg"
-  },
-  {
-  	  name: "Plantoid",
-  	  description: "Hybrid Organic Robot",
-  	  avatar: "http://www.plantoidrobotics.org/images/thumb/3/37/OrbousandPlantServer.jpg/320px-OrbousandPlantServer.jpg"
-  }
   ];
   
   $scope.showRobot = function (index) {
 	  console.log($scope.robots[index]);
-	  window.location.href = "robot.html";
+	  window.location.href = "robot.html#"+$scope.robots[index].id;
   }
+  window.$http = $http;
+	$http({
+		method: 'POST',
+		url: "http://" + Server.path + ":" + Server.port + "/robots/list",
+	      data: $.param({username:localStorage.username}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function (data) {
+		console.log("Robots", data)
+		$scope.robots = data;
+	}).error(function (data) {
+	  alert("Failure");
+	})
+  
 });
 
 
@@ -153,8 +194,13 @@ robotDashboard.controller('RobotCreator', function ($scope, $http) {
 	  $http({
 	      method: 'POST',
 	      url: "http://" + Server.path + ":" + Server.port + "/robot/create",
-	      data: $.param($scope.robot),
+	      data: $.param({robot:$scope.robot, token:localStorage.authkey}),
 	      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function (data) {
+		  window.location.href = "caretaker.html";
+	  }).error(function (data) {
+		  alert("Error");
+		  console.log(data);
 	  });
   }
 });
