@@ -8,11 +8,13 @@ var Server = {
 // }
 
 
-var robotDashboard = angular.module('RobotDashboard', []);
+var robotDashboard = angular.module('RobotDashboard', ['LocalStorageModule']);
 
-robotDashboard.controller('AccountController', function ($scope, $http) {
+robotDashboard.controller('AccountController', function ($scope, $http, localStorageService) {
 	
-	if (localStorage.getItem("authkey") && localStorage.getItem("authkey") !== "undefined" && document.getElementById("login-form")) {
+	console.log("LocalStoreService", localStorageService);
+	
+	if (localStorageService.get("authkey") && localStorageService.get("authkey") !== "undefined" && document.getElementById("login-form")) {
 		window.location.href = "caretaker.html";
 	}
 	
@@ -36,9 +38,8 @@ robotDashboard.controller('AccountController', function ($scope, $http) {
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).success(function (data) {
 				
-
-				localStorage.setItem("authkey", data.replace("\"", '').replace("\"", ''));
-				localStorage.setItem("username", $scope.username);
+				localStorageService.set("authkey", data.replace("\"", '').replace("\"", ''));
+				localStorageService.set("username", $scope.username);
 				window.location.href = "caretaker.html";
 		  }).error(function () {
 			  alert("Failure");
@@ -51,7 +52,7 @@ robotDashboard.controller('AccountController', function ($scope, $http) {
 	
 });
 
-robotDashboard.controller('CareTakerController', function ($scope, $http) {
+robotDashboard.controller('CareTakerController', function ($scope, $http, localStorageService) {
   $scope.caretaker = {
 	  name: "",
 	  credentials: {
@@ -67,7 +68,7 @@ robotDashboard.controller('CareTakerController', function ($scope, $http) {
 	method: 'POST',
 	url: "http://" + Server.path + ":" + Server.port + "/user",
 	data: $.param({
-		username:localStorage.getItem("username"),
+		username:localStorageService.get("username"),
 	}),
 	headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (data) {
@@ -88,12 +89,13 @@ $scope.logout = function () {
 		method: 'POST',
 		url: "http://" + Server.path + ":" + Server.port + "/user/logout",
 		data: $.param({
-			username:localStorage.getItem("username"),
+			username:localStorageService.get("username"),
 		}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (data) {
 		
-		localStorage.setItem("authkey", undefined);
+		localStorageService.clearAll();
+		// localStorage.setItem("authkey", undefined);
 		window.location.href = "index.html";
 		
   }).error(function () {
@@ -118,7 +120,7 @@ $scope.addRobot = function () {
 	
 
 
-robotDashboard.controller('RobotOverviewController', function ($scope, $http) {
+robotDashboard.controller('RobotOverviewController', function ($scope, $http, localStorageService) {
   $scope.robot = {
 	  name: "Loading...",
 	  description: "",
@@ -139,7 +141,7 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http) {
 });
 
 
-robotDashboard.controller('RobotsList', function ($scope, $http) {
+robotDashboard.controller('RobotsList', function ($scope, $http, localStorageService) {
 	
 	
   $scope.robots = [
@@ -153,7 +155,7 @@ robotDashboard.controller('RobotsList', function ($scope, $http) {
 	$http({
 		method: 'POST',
 		url: "http://" + Server.path + ":" + Server.port + "/robots/list",
-	      data: $.param({username:localStorage.username}),
+	      data: $.param({username:localStorageService.get("username")}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (data) {
 		console.log("Robots", data)
@@ -166,7 +168,7 @@ robotDashboard.controller('RobotsList', function ($scope, $http) {
 
 
 
-robotDashboard.controller('RegisterController', function ($scope, $http) {
+robotDashboard.controller('RegisterController', function ($scope, $http, localStorageService) {
 
 	$scope.user = {
 	  username: "",
@@ -193,8 +195,8 @@ robotDashboard.controller('RegisterController', function ($scope, $http) {
 				
 			}).success(function (data) {
 				
-				localStorage.setItem("authkey", data.replace("\"", '').replace("\"", ''));
-				localStorage.setItem("username", $scope.user.username);
+				localStorageService.set("authkey", data.replace("\"", '').replace("\"", ''));
+				localStorageService.set("username", $scope.user.username);
 				window.location.href = "caretaker.html";
 				
 		  }).error(function () {
@@ -211,7 +213,7 @@ robotDashboard.controller('RegisterController', function ($scope, $http) {
 
 
 
-robotDashboard.controller('RobotCreator', function ($scope, $http) {
+robotDashboard.controller('RobotCreator', function ($scope, $http, localStorageService) {
   $scope.robot = {
 	  name: "",
 	  description: "",
@@ -223,7 +225,7 @@ robotDashboard.controller('RobotCreator', function ($scope, $http) {
 	  $http({
 	      method: 'POST',
 	      url: "http://" + Server.path + ":" + Server.port + "/robot/create",
-	      data: $.param({robot:$scope.robot, token:localStorage.getItem("authkey")}),
+	      data: $.param({robot:$scope.robot, token:localStorageService.get("authkey")}),
 	      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function (data) {
 		  window.location.href = "caretaker.html";
@@ -240,7 +242,7 @@ robotDashboard.controller('RobotCreator', function ($scope, $http) {
 	
 
 
-robotDashboard.controller('RobotController', function ($scope, $http) {
+robotDashboard.controller('RobotController', function ($scope, $http, localStorageService) {
   $scope.robot = {
 	  name: "Loading...",
 	  description: "",
