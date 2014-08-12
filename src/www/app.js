@@ -8,15 +8,33 @@ var Server = {
 // }
 
 
-var robotDashboard = angular.module('RobotDashboard', ['LocalStorageModule']);
+var robotDashboard = angular.module('RobotDashboard', ['LocalStorageModule', 'RobotCloudDataProvider']);
 
-robotDashboard.controller('AccountController', function ($scope, $http, localStorageService) {
+robotDashboard.controller('AppController', function ($scope, $http, localStorageService, robotCloudDataProvider) {
 	
-	console.log("LocalStoreService", localStorageService);
+});
+
+robotDashboard.controller('SuggestProperties', function ($scope, $http, localStorageService, robotCloudDataProvider) {
 	
-	if (localStorageService.get("authkey") && localStorageService.get("authkey") !== "undefined" && document.getElementById("login-form")) {
+});
+
+robotDashboard.controller('RobotProperties', function ($scope, $http, localStorageService, robotCloudDataProvider) {
+	
+});
+
+
+
+robotDashboard.controller('AccountController', function ($scope, $http, localStorageService, robotCloudDataProvider) {
+	
+	// console.log("LocalStoreService", localStorageService);
+	
+	if (robotCloudDataProvider.userIsAuthenticated() && document.getElementById("login-form")) {
 		window.location.href = "caretaker.html";
 	}
+	
+	robotCloudDataProvider.getUserByToken(localStorageService.get("authkey"));
+	
+    // robotCloudDataProvider.validateToken(token, $http, success, error);
 	
 	$scope.username = "";
 	$scope.password = "";
@@ -26,7 +44,9 @@ robotDashboard.controller('AccountController', function ($scope, $http, localSto
 	$scope.login = function () {
 		
 		// $scope.isAuthenticated = false;
-		console.log($scope.username, $scope.password);
+		// console.log($scope.username, $scope.password);
+		
+		
 		
 		$http({
 			method: 'POST',
@@ -43,7 +63,7 @@ robotDashboard.controller('AccountController', function ($scope, $http, localSto
 				window.location.href = "caretaker.html";
 		  }).error(function () {
 			  alert("Failure");
-		  })
+		  });
 		
 		
 		//window.location.href = "caretaker.html";
@@ -151,14 +171,13 @@ robotDashboard.controller('RobotsList', function ($scope, $http, localStorageSer
 	  console.log($scope.robots[index]);
 	  window.location.href = "robot.html#"+$scope.robots[index].id;
   }
-  window.$http = $http;
 	$http({
 		method: 'POST',
 		url: "http://" + Server.path + ":" + Server.port + "/robots/list",
 	      data: $.param({username:localStorageService.get("username")}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (data) {
-		console.log("Robots", data)
+		console.log("Robots", data);
 		$scope.robots = data;
 	}).error(function (data) {
 	  alert("Failure");
@@ -242,14 +261,17 @@ robotDashboard.controller('RobotCreator', function ($scope, $http, localStorageS
 	
 
 
-robotDashboard.controller('RobotController', function ($scope, $http, localStorageService) {
+robotDashboard.controller('RobotController', function ($scope, $http, localStorageService, robotCloudDataProvider) {
   $scope.robot = {
 	  name: "Loading...",
 	  description: "",
 	  avatar: "",
 	  id: "",
   }
-  	$http({
+  
+  
+
+	  	$http({
 		method: 'POST',
 		url: "http://" + Server.path + ":" + Server.port + "/robot/id",
 	      data: $.param({id:location.hash.replace("#","").replace("/", "")}),
@@ -260,6 +282,8 @@ robotDashboard.controller('RobotController', function ($scope, $http, localStora
 	}).error(function (data) {
 	  alert("Failure");
 	});
+
+	
 	
 	
 	$scope.update = function () {

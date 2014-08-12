@@ -10,30 +10,141 @@
 
 </head>
 
-<body ng-controller="AccountController">
-	
+<body ng-controller="RobotOverviewController">
+<input type="hidden" ng-controller="AccountController" />
 
 <header ng-include="'views/header.html'" ng-controller="CareTakerController"></header>
 
 <section id="robot-overview" ng-controller="RobotOverviewController">
-<img src="{{robot.avatar}}" class="robot-avatar" />
-<h1>{{robot.name}}</h1>
-<p>
-	{{robot.description}}
-</p>	
+
+	<div class="row">
+	  <div class="col-xs-12 col-md-8">
+	  	<img src="{{robot.avatar}}" class="robot-avatar" />
+	  	<h1>{{robot.name}}</h1>
+	  	<p>
+	  		{{robot.description}}
+	  	</p>
+  
+	  </div>
+	  <div class="col-xs-6 col-md-4">
+		  ...
+	  </div>
+	</div>
 </section>
 
-<section class="row" ng-controller="RobotController">
-	
-	  <div class="col-md-9 btn-group">
+<!-- <section class="grid" ng-controller="SuggestProperties">
+	<h3>Does {{robot.name}} have any of these properties?</h3>
+	<div>
+		<span>{{robot.suggestedProperties}}</span>
+	</div>
+</section> -->
 
-		  <button type="button" class="btn btn-default" ng-click="update()"><span class="glyphicon glyphicon-plus"></span>Update</button>		  
-		  <button type="button" class="btn btn-default" ng-click="remove()"><span class="glyphicon glyphicon-th-list"></span>Remove</button>
-		  
+<section class="row robot-controls" ng-controller="RobotController">
+	
+	  <div class="col-md-12 btn-group">
+
+			  <center>
+				  <button type="button" class="btn btn-default" ng-click="update()"><span class="glyphicon glyphicon-plus"></span> Update</button>		  
+				  <button type="button" class="btn btn-default" ng-click="remove()"><span class="glyphicon glyphicon-th-list"></span> Remove</button>
+			  </center>
 	  </div>
 	
 </section>
 
+
+<section class="row robot-properties" ng-controller="RobotProperties">
+
+	  <div class="col-xs-12 col-md-4">
+		  
+	  	<div class="robot-property">
+			<div class="property-info">
+				<h3>
+					Camera
+					<button type="button" class="btn btn-clear pull-right" ng-click="update()">
+						<span class="glyphicon glyphicon-cog"></span>
+					</button>
+				</h3>
+			</div>
+			<div class="property-overview">
+				<img src="http://myrobotlab.org/sites/default/files/users/user3images/orbous(2).png" />
+			</div>
+			<div class="property-controls" ng-include="'/views/PropertyControls.html'">
+			</div>
+		</div>
+
+	  	<div class="robot-property">
+			<div class="property-info">
+				<h3>
+					Camera
+					<button type="button" class="btn btn-clear pull-right" ng-click="update()">
+						<span class="glyphicon glyphicon-cog"></span>
+					</button>
+				</h3>
+			</div>
+			<div class="property-overview">
+				<div class="media-place-holder"></div>
+			</div>
+			<div class="property-controls" ng-include="'/views/PropertyControls.html'">
+			</div>
+		</div>
+
+
+
+	  </div>
+	  <div class="col-xs-12 col-md-4">
+	  	<div class="robot-property">
+			<div class="property-info">
+					<h3>
+						Battery
+						<button type="button" class="btn btn-clear pull-right" ng-click="update()">
+							<span class="glyphicon glyphicon-cog"></span>
+						</button>
+						
+					</h3>
+
+
+			</div>
+			<div class="property-overview">
+
+			<!-- ng-controller="PowerMeterController" -->
+			<div class="battery">
+			    <div id="batteryBody">
+			        <div id="indicator" class="charging" style="width:50%">
+         			   
+			        </div>
+			    </div>
+			    <div class="batteryEnd">
+			        <div>
+         
+			        </div>
+			    </div>
+			</div>
+
+			</div>
+			<div class="property-controls" ng-include="'/views/PropertyControls.html'">
+			</div>
+		</div>
+	  </div>
+	  <div class="col-xs-12 col-md-4">
+	  	<div class="robot-property">
+			<div class="property-info">
+				<h3>
+					Camera
+					<button type="button" class="btn btn-clear pull-right" ng-click="update()">
+						<span class="glyphicon glyphicon-cog"></span>
+					</button>
+				</h3>
+			</div>
+			<div class="property-overview">
+				<div class="media-place-holder"></div>
+			</div>
+			<div class="property-controls" ng-include="'/views/PropertyControls.html'">
+			</div>
+		</div>
+
+	  </div>
+	
+</section>
 
 
 	<script src="libs/angular.min.js"></script>
@@ -41,6 +152,7 @@
 
 	<script src="libs/bootstrap.min.js"></script>
 	<script src="libs/angular-local-storage.js"></script>
+	<script src="js/RobotCloudDataProvider.js"></script>
 	<script src="app.js">
 	</script>
 </body>
