@@ -19,7 +19,7 @@
 
 	<div class="row">
 	  <div class="col-xs-12 col-md-8">
-	  	<img src="{{robot.avatar}}" class="robot-avatar" />
+	  	<img src="{{robot.avatar}}" class="robot-avatar hidden-xs" />
 	  	<h1>{{robot.name}}</h1>
 	  	<p>
 	  		{{robot.description}}
@@ -32,118 +32,115 @@
 	</div>
 </section>
 
-<!-- <section class="grid" ng-controller="SuggestProperties">
-	<h3>Does {{robot.name}} have any of these properties?</h3>
-	<div>
-		<span>{{robot.suggestedProperties}}</span>
-	</div>
-</section> -->
+<section style="padding:15px;">
 
-<section class="row robot-controls" ng-controller="RobotController">
+
+	<section class="row robot-controls" ng-controller="RobotController">
 	
-	  <div class="col-md-12 btn-group">
+		  <div class="col-md-12 btn-group col-xs-18">
 
-			  <center>
-				  <button type="button" class="btn btn-default" ng-click="update()"><span class="glyphicon glyphicon-plus"></span> Update</button>		  
-				  <button type="button" class="btn btn-default" ng-click="remove()"><span class="glyphicon glyphicon-th-list"></span> Remove</button>
-			  </center>
-	  </div>
+				  <center style="padding:10px;">
+					  <button type="button" class="btn btn-default" ng-click="update()"><span class="glyphicon glyphicon-plus"></span> Update</button>		  
+					  <button type="button" class="btn btn-default" ng-click="remove()"><span class="glyphicon glyphicon-th-list"></span> Remove</button>
+				  </center>
+		  </div>
 	
-</section>
+	</section>
 
 
-<section class="row robot-properties" ng-controller="RobotProperties">
+	<section class="row robot-properties" ng-controller="RobotProperties">
 
-	  <div class="col-xs-12 col-md-4">
+		  <div class="col-xs-12 col-md-4">
 		  
-	  	<div class="robot-property">
-			<div class="property-info">
-				<h3>
-					Camera
-					<button type="button" class="btn btn-clear pull-right" ng-click="update()">
-						<span class="glyphicon glyphicon-cog"></span>
-					</button>
-				</h3>
-			</div>
-			<div class="property-overview">
-				<img src="http://myrobotlab.org/sites/default/files/users/user3images/orbous(2).png" />
-			</div>
-			<div class="property-controls" ng-include="'/views/PropertyControls.html'">
-			</div>
-		</div>
-
-	  	<div class="robot-property">
-			<div class="property-info">
-				<h3>
-					Camera
-					<button type="button" class="btn btn-clear pull-right" ng-click="update()">
-						<span class="glyphicon glyphicon-cog"></span>
-					</button>
-				</h3>
-			</div>
-			<div class="property-overview">
-				<div class="media-place-holder"></div>
-			</div>
-			<div class="property-controls" ng-include="'/views/PropertyControls.html'">
-			</div>
-		</div>
-
-
-
-	  </div>
-	  <div class="col-xs-12 col-md-4">
-	  	<div class="robot-property">
-			<div class="property-info">
+		  	<div class="robot-property">
+				<div class="property-info">
 					<h3>
-						Battery
+						Camera
 						<button type="button" class="btn btn-clear pull-right" ng-click="update()">
 							<span class="glyphicon glyphicon-cog"></span>
 						</button>
-						
 					</h3>
-
-
+				</div>
+				<div class="property-overview">
+					<img src="http://myrobotlab.org/sites/default/files/users/user3images/orbous(2).png" />
+				</div>
+				<div class="property-controls" ng-include="'/views/PropertyControls.html'">
+				</div>
 			</div>
-			<div class="property-overview">
 
-			<!-- ng-controller="PowerMeterController" -->
-			<div class="battery">
-			    <div id="batteryBody">
-			        <div id="indicator" class="charging" style="width:50%">
+		  	<div class="robot-property">
+				<div class="property-info">
+					<h3>
+						Camera
+						<button type="button" class="btn btn-clear pull-right" ng-click="update()">
+							<span class="glyphicon glyphicon-cog"></span>
+						</button>
+					</h3>
+				</div>
+				<div class="property-overview">
+					<div class="media-place-holder"></div>
+				</div>
+				<div class="property-controls" ng-include="'/views/PropertyControls.html'">
+				</div>
+			</div>
+
+
+
+		  </div>
+		  <div class="col-xs-12 col-md-4">
+		  	<div class="robot-property">
+				<div class="property-info">
+						<h3>
+							Battery
+							<button type="button" class="btn btn-clear pull-right" ng-click="update()">
+								<span class="glyphicon glyphicon-cog"></span>
+							</button>
+						
+						</h3>
+
+
+				</div>
+				<div class="property-overview">
+
+				<!-- ng-controller="PowerMeterController" -->
+				<div class="battery">
+				    <div id="batteryBody">
+				        <div id="indicator" class="charging" style="width:50%">
          			   
-			        </div>
-			    </div>
-			    <div class="batteryEnd">
-			        <div>
+				        </div>
+				    </div>
+				    <div class="batteryEnd">
+				        <div>
          
-			        </div>
-			    </div>
+				        </div>
+				    </div>
+				</div>
+
+				</div>
+				<div class="property-controls" ng-include="'/views/PropertyControls.html'">
+				</div>
+			</div>
+		  </div>
+		  <div class="col-xs-12 col-md-4">
+		  	<div class="robot-property">
+				<div class="property-info">
+					<h3>
+						Camera
+						<button type="button" class="btn btn-clear pull-right" ng-click="update()">
+							<span class="glyphicon glyphicon-cog"></span>
+						</button>
+					</h3>
+				</div>
+				<div class="property-overview">
+					<div class="media-place-holder"></div>
+				</div>
+				<div class="property-controls" ng-include="'/views/PropertyControls.html'">
+				</div>
 			</div>
 
-			</div>
-			<div class="property-controls" ng-include="'/views/PropertyControls.html'">
-			</div>
-		</div>
-	  </div>
-	  <div class="col-xs-12 col-md-4">
-	  	<div class="robot-property">
-			<div class="property-info">
-				<h3>
-					Camera
-					<button type="button" class="btn btn-clear pull-right" ng-click="update()">
-						<span class="glyphicon glyphicon-cog"></span>
-					</button>
-				</h3>
-			</div>
-			<div class="property-overview">
-				<div class="media-place-holder"></div>
-			</div>
-			<div class="property-controls" ng-include="'/views/PropertyControls.html'">
-			</div>
-		</div>
-
-	  </div>
+		  </div>
 	
+	</section>
 </section>
 
 
