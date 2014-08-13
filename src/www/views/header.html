@@ -1,6 +1,6 @@
 	
 	<div class="row">
-	  <div class="col-md-3">
+	  <div class="col-md-7 col-xs-6">
 
 			<!-- <a href="caretaker.html"> -->
 				<img src="{{caretaker.credentials.avatar}}" class="avatar" />
@@ -10,12 +10,14 @@
 	  </div>
 	  
 	
-	  <div class="col-md-9 ">
-		  <span class="btn-group pull-right controls">
-		  <button type="button" class="btn btn-default" ng-click="dashboard()"><span class="glyphicon glyphicon-th-list"></span>Dashboard</button>
-		  <button type="button" class="btn btn-default" ng-click="addRobot()"><span class="glyphicon glyphicon-plus"></span>Add Robot</button>
-		  <button type="button" class="btn btn-default" ng-click="settings()"><span class="glyphicon glyphicon-cog"></span>Settings</button>
-  		  <button type="button" class="btn btn-default" ng-click="logout()"><span class="glyphicon glyphicon-remove"></span>Logout</button>
+	  <div class="col-md-5 col-xs-12">
+  		  <span class="btn-group controls pull-right">
+  		  	<button type="button" class="btn btn-sm btn-dark" ng-click="logout()"><span class="glyphicon glyphicon-remove"></span> Logout</button>
+		  </span>
+		  <span class="btn-group controls pull-right">
+			  <button type="button" class="btn btn-sm btn-dark" ng-click="dashboard()"><span class="glyphicon glyphicon-th-list"></span> Dashboard</button>
+			  <button type="button" class="btn btn-sm btn-dark" ng-click="addRobot()"><span class="glyphicon glyphicon-plus"></span> Add Robot</button>
+			  <button type="button" class="btn btn-sm btn-dark" ng-click="settings()"><span class="glyphicon glyphicon-cog"></span> Settings</button>
 		  </span>
 	  </div>
 	  

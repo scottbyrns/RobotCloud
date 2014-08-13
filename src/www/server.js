@@ -40,7 +40,7 @@ function createServer (db) {
 	
 	function validateToken (token, callback) {
 		db.find({"user.token": token}, function (err, doc) {
-			console.log(arguments);
+			// console.log("Validate Token", arguments);
 			if (err || doc.length == 0) {
 				return callback(false);
 			}
@@ -113,11 +113,12 @@ function createServer (db) {
 		
 
 		validateToken(req.params.token, function (valid) {
+
 			if (valid) {
 				
 				var robot = req.params.robot;
 				// robot.id = guid();
-				console.log(robot);
+				// console.log(robot);
 				db.update({"user.token": req.params.token}, { $pull: { robots: robot } }, {}, function (err, numberUpdated) {
 					
 					if (!err && numberUpdated > 0) {
@@ -331,6 +332,69 @@ function createServer (db) {
 
 	  // })
 	});
+	
+	
+	server.post('/robot/update', function (req, res, next) {
+
+		validateToken(req.params.token, function (valid) {
+			if (valid) {
+				
+				var robot = req.params.robot;
+				// robot.id = guid();
+				console.log("Robot", robot);
+				
+				
+				db.find({"robots.id": robot.id}, function (err, doc) {
+					console.log(arguments)
+					if (doc.length > 0) {
+					    res.setHeader('Access-Control-Allow-Origin','*');
+						for (var i =0, len = doc[0].robots.length; i < len; i += 1) {
+							if (doc[0].robots[i].id == robot.id) {
+								doc[0].robots[i] = robot;
+
+								db.update({"robots.id": robot.id}, doc, {}, function (err, numberUpdated) {
+								
+									if (!err && numberUpdated > 0) {
+						  			    res.setHeader('Access-Control-Allow-Origin','*');
+						  			    res.send(201, req.params);
+						  				next();						
+									}
+					
+									else {
+						  			    res.setHeader('Access-Control-Allow-Origin','*');
+						  			    res.send(500, req.params);
+						  				next();
+									}
+									
+								})
+
+
+							}
+
+						}
+						// return next();
+					}
+					else {
+					    res.setHeader('Access-Control-Allow-Origin','*');
+					    res.send(500, API.NotAuthorized);
+						next();
+					}
+			
+
+				})
+				
+				
+				
+				
+			}
+			else {
+			    res.setHeader('Access-Control-Allow-Origin','*');
+			    res.send(400, API.NotAuthorized);
+				next();
+			}
+		});
+		
+	})
 	
 	server.post('/robot/create', function (req, res, next) {
 

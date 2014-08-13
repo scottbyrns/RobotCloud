@@ -242,12 +242,56 @@ robotDashboard.controller('RobotCreator', function ($scope, $http, localStorageS
   $scope.addRobot = function () {
 	  console.log($scope.robot);
 	  $http({
+		  
 	      method: 'POST',
 	      url: "http://" + Server.path + ":" + Server.port + "/robot/create",
 	      data: $.param({robot:$scope.robot, token:localStorageService.get("authkey")}),
 	      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		  
 	  }).success(function (data) {
-		  window.location.href = "caretaker.html";
+		  
+		  window.location.href = "robot.html#" + data.robot.id;
+		  
+	  }).error(function (data) {
+		  
+		  alert("Error");
+		  console.log(data);
+		  
+	  });
+  }
+});
+
+
+
+robotDashboard.controller('RobotUpdater', function ($scope, $http, localStorageService) {
+
+    $scope.robot = {
+  	  name: "Loading...",
+  	  description: "",
+  	  avatar: ""
+    }
+    	$http({
+  		method: 'POST',
+  		url: "http://" + Server.path + ":" + Server.port + "/robot/id",
+  	      data: $.param({id:location.hash.replace("#","").replace("/", "")}),
+  		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+  	}).success(function (data) {
+  		console.log("Robots", data)
+  		$scope.robot = data;
+  	}).error(function (data) {
+  	  alert("Failure");
+  	});
+  
+  
+  $scope.updateRobot = function () {
+	  console.log($scope.robot);
+	  $http({
+	      method: 'POST',
+	      url: "http://" + Server.path + ":" + Server.port + "/robot/update",
+	      data: $.param({robot:$scope.robot, token:localStorageService.get("authkey")}),
+	      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function (data) {
+		  window.location.href = window.location.href.replace("update", "robot");
 	  }).error(function (data) {
 		  alert("Error");
 		  console.log(data);
@@ -287,7 +331,7 @@ robotDashboard.controller('RobotController', function ($scope, $http, localStora
 	
 	
 	$scope.update = function () {
-		alert("TODO")
+		window.location.href = window.location.href.replace("robot", "update");
 	};
 	
 	$scope.remove = function () {
@@ -297,7 +341,7 @@ robotDashboard.controller('RobotController', function ($scope, $http, localStora
 			method: 'POST',
 			url: "http://" + Server.path + ":" + Server.port + "/robot/delete",
 			//{id:location.hash.replace("#","").replace("/", "")}
-		      data: $.param({robot:$scope.robot, token:localStorage.getItem("authkey") }),
+		      data: $.param({robot:$scope.robot, token:localStorageService.get("authkey") }),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function (data) {
 			window.location.href = "caretaker.html";
