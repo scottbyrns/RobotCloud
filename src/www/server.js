@@ -527,7 +527,9 @@ function createServer (db) {
 		
 	});
 	
-	
+	server.post('/robot/property/collection/update', function (req, res, next) {
+		console.log("Robot Property Collection", req.params);
+	});
 
 	server.post('/robot/property', function (req, res, next) {
 		// http://sohowww.nascom.nasa.gov/data/realtime/eit_171/512/latest.jpg
