@@ -8,7 +8,7 @@ var Server = {
 // }
 
 
-var robotDashboard = angular.module('RobotDashboard', ['LocalStorageModule', 'RobotCloudDataProvider']);
+var robotDashboard = angular.module('RobotDashboard', ['ngSanitize', 'LocalStorageModule', 'RobotCloudDataProvider']);
 
 
 robotDashboard.directive('draggable', function() {
@@ -241,7 +241,7 @@ $scope.addRobot = function () {
 	
 
 
-robotDashboard.controller('RobotOverviewController', function ($scope, $http, localStorageService) {
+robotDashboard.controller('RobotOverviewController', function ($scope, $http, localStorageService, $sce) {
   $scope.robot = {
 	  name: "Loading...",
 	  description: "",
@@ -258,6 +258,10 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 	}).error(function (data) {
 	  alert("Failure");
 	});
+	
+    $scope.trustSrc = function(src) {
+      return $sce.trustAsResourceUrl(src);
+    }
 	
 	$scope.drop = function (property, column) {
 		console.log(arguments);
