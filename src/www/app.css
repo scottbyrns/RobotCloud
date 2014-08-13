@@ -9,7 +9,7 @@ body {
 }
 
 header {
-	opacity:0.9;
+/*	opacity:0.9;*/
 	z-index:9999;
 	color:#FAFAFA;
 	position:fixed;
