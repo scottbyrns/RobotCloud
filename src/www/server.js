@@ -396,6 +396,143 @@ function createServer (db) {
 		
 	})
 	
+	server.post('/robot/property/create', function (req, res, next) {
+		// http://sohowww.nascom.nasa.gov/data/realtime/eit_171/512/latest.jpg
+
+		validateToken(req.params.token, function (valid) {
+			if (valid) {
+				
+				var property = req.params.property;
+				// robot.id = guid();
+				console.log("Property", property);
+				
+				
+				db.find({"robots.id": req.params.robot.id}, function (err, doc) {
+					console.log(arguments)
+					if (doc.length > 0) {
+					    res.setHeader('Access-Control-Allow-Origin','*');
+						for (var i =0, len = doc[0].robots.length; i < len; i += 1) {
+							if (doc[0].robots[i].id == req.params.robot.id) {
+								doc[0].robots[i].properties = doc[0].robots[i].properties || [];
+								property.id = guid();
+								doc[0].robots[i].properties.push(property);
+
+								db.update({"robots.id": req.params.robot.id}, doc, {}, function (err, numberUpdated) {
+								
+									if (!err && numberUpdated > 0) {
+						  			    res.setHeader('Access-Control-Allow-Origin','*');
+						  			    res.send(201, req.params);
+						  				next();						
+									}
+					
+									else {
+						  			    res.setHeader('Access-Control-Allow-Origin','*');
+						  			    res.send(500, req.params);
+						  				next();
+									}
+									
+								})
+
+
+							}
+
+						}
+						// return next();
+					}
+					else {
+					    res.setHeader('Access-Control-Allow-Origin','*');
+					    res.send(500, API.NotAuthorized);
+						next();
+					}
+			
+
+				})
+				
+				
+				
+				
+			}
+			else {
+			    res.setHeader('Access-Control-Allow-Origin','*');
+			    res.send(400, API.NotAuthorized);
+				next();
+			}
+		});
+		
+	});
+	
+	
+	
+	
+	server.post('/robot/properties/update', function (req, res, next) {
+
+		validateToken(req.params.token, function (valid) {
+			console.log(valid);
+			if (valid) {
+				
+				var robot = req.params.robot;
+				// robot.id = guid();
+				console.log("Robot", robot);
+				
+				
+				db.find({"robots.id": robot.id}, function (err, doc) {
+					console.log("Document",arguments)
+					if (doc.length > 0) {
+					    res.setHeader('Access-Control-Allow-Origin','*');
+						for (var i =0, len = doc[0].robots.length; i < len; i += 1) {
+							if (doc[0].robots[i].id == robot.id) {
+								doc[0].robots[i] = robot;
+
+								db.update({"robots.id": robot.id}, doc, {}, function (err, numberUpdated) {
+									console.log("update", arguments);
+									if (!err && numberUpdated > 0) {
+						  			    res.setHeader('Access-Control-Allow-Origin','*');
+						  			    res.send(201, req.params);
+						  				next();						
+									}
+					
+									else {
+						  			    res.setHeader('Access-Control-Allow-Origin','*');
+						  			    res.send(500, req.params);
+						  				next();
+									}
+									
+								})
+
+
+							}
+
+						}
+						// return next();
+					}
+					else {
+					    res.setHeader('Access-Control-Allow-Origin','*');
+					    res.send(500, API.NotAuthorized);
+						next();
+					}
+			
+
+				})
+				
+				
+				
+				
+			}
+			else {
+			    res.setHeader('Access-Control-Allow-Origin','*');
+			    res.send(400, API.NotAuthorized);
+				next();
+			}
+		});
+		
+	});
+	
+	
+
+	server.post('/robot/property', function (req, res, next) {
+		// http://sohowww.nascom.nasa.gov/data/realtime/eit_171/512/latest.jpg
+	});
+	
 	server.post('/robot/create', function (req, res, next) {
 
 		validateToken(req.params.token, function (valid) {

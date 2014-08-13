@@ -10,6 +10,107 @@ var Server = {
 
 var robotDashboard = angular.module('RobotDashboard', ['LocalStorageModule', 'RobotCloudDataProvider']);
 
+
+robotDashboard.directive('draggable', function() {
+  return function(scope, element) {
+    // this gives us the native JS object
+    var el = element[0];
+    
+    el.draggable = true;
+    
+    el.addEventListener(
+      'dragstart',
+      function(e) {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('Text', this.id);
+        this.classList.add('drag');
+        return false;
+      },
+      false
+    );
+    
+    el.addEventListener(
+      'dragend',
+      function(e) {
+        this.classList.remove('drag');
+        return false;
+      },
+      false
+    );
+  }
+});
+
+robotDashboard.directive('droppable', function() {
+  return {
+    scope: {
+      drop: '&',
+      bin: '='
+    },
+    link: function(scope, element) {
+      // again we need the native object
+      var el = element[0];
+      
+      el.addEventListener(
+        'dragover',
+        function(e) {
+          e.dataTransfer.dropEffect = 'move';
+          // allows us to drop
+          if (e.preventDefault) e.preventDefault();
+          this.classList.add('over');
+          return false;
+        },
+        false
+      );
+      
+      el.addEventListener(
+        'dragenter',
+        function(e) {
+          this.classList.add('over');
+          return false;
+        },
+        false
+      );
+      
+      el.addEventListener(
+        'dragleave',
+        function(e) {
+          this.classList.remove('over');
+          return false;
+        },
+        false
+      );
+      
+      el.addEventListener(
+        'drop',
+        function(e) {
+          // Stops some browsers from redirecting.
+          if (e.stopPropagation) e.stopPropagation();
+          
+          this.classList.remove('over');
+          
+          var binId = this.id;
+          var item = document.getElementById(e.dataTransfer.getData('Text'));
+          this.appendChild(item);
+          // call the passed drop function
+          scope.$apply(function(scope) {
+            var fn = scope.drop();
+            if ('undefined' !== typeof fn) {            
+              fn(item.id, binId);
+            }
+          });
+          
+          return false;
+        },
+        false
+      );
+    }
+  }
+});
+
+
+
+
+
 robotDashboard.controller('AppController', function ($scope, $http, localStorageService, robotCloudDataProvider) {
 	
 });
@@ -156,7 +257,49 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 		$scope.robot = data;
 	}).error(function (data) {
 	  alert("Failure");
-	})
+	});
+	
+	$scope.drop = function (property, column) {
+		console.log(arguments);
+		
+		var properties = $scope.robot.properties;
+		for (var i = 0, len = properties.length; i < len; i += 1) {
+			
+			if (properties[i].id == property) {
+				properties[i].column = column * 1;
+
+			}
+			
+		}
+		
+		$scope.updateColumns();
+		
+		// console.log($scope.robot);
+	}
+	
+	$scope.updateColumns = function () {
+		
+		var bot = $scope.robot;
+		// delete bot.$$hasKey;
+
+		for (var i = 0, len = bot.properties.length; i < len; i += 1) {
+
+			delete bot.properties[i]['$$hashKey'];
+
+		}
+		
+	  	$http({
+			method: 'POST',
+			url: "http://" + Server.path + ":" + Server.port + "/robot/properties/update",
+		      data: $.param({robot:bot, token:localStorageService.get("authkey")}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function (data) {
+			console.log("Robots", data)
+			// $scope.robot = data;
+		}).error(function (data) {
+		  alert("Failure");
+		});
+	};
   
 });
 
@@ -301,6 +444,53 @@ robotDashboard.controller('RobotUpdater', function ($scope, $http, localStorageS
 
 
 
+robotDashboard.controller('AddPropertyController', function ($scope, $http, localStorageService) {
+
+    $scope.robot = {
+  	  name: "Loading...",
+  	  description: "",
+  	  avatar: ""
+    }
+	
+	$scope.property = {
+		name: "",
+		description: "",
+		resourcePath: "",
+		propertyType: "",
+		column:2
+	};
+	
+    	$http({
+  		method: 'POST',
+  		url: "http://" + Server.path + ":" + Server.port + "/robot/id",
+  	      data: $.param({id:location.hash.replace("#","").replace("/", "")}),
+  		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+  	}).success(function (data) {
+  		console.log("Robots", data)
+  		$scope.robot = data;
+  	}).error(function (data) {
+  	  alert("Failure");
+  	});
+  
+  
+  $scope.addProperty = function () {
+	  console.log($scope.robot);
+	  $http({
+	      method: 'POST',
+	      url: "http://" + Server.path + ":" + Server.port + "/robot/property/create",
+	      data: $.param({robot:$scope.robot, property:$scope.property, token:localStorageService.get("authkey")}),
+	      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function (data) {
+		  window.location.href = window.location.href.replace("addProperty", "robot");
+	  }).error(function (data) {
+		  alert("Error");
+		  console.log(data);
+	  });
+  }
+});
+
+
+
 
 	
 
@@ -328,7 +518,9 @@ robotDashboard.controller('RobotController', function ($scope, $http, localStora
 	});
 
 	
-	
+	$scope.addProperty = function () {
+		window.location.href = window.location.href.replace("robot", "addProperty");
+	};
 	
 	$scope.update = function () {
 		window.location.href = window.location.href.replace("robot", "update");
