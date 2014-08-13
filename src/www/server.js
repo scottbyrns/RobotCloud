@@ -529,6 +529,8 @@ function createServer (db) {
 	
 	server.post('/robot/property/collection/update', function (req, res, next) {
 		console.log("Robot Property Collection", req.params);
+		res.send(200, req.params);
+		next();
 	});
 
 	server.post('/robot/property', function (req, res, next) {
