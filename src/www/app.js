@@ -263,6 +263,10 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
       return $sce.trustAsResourceUrl(src);
     }
 	
+	$scope.click = function (id) {
+		document.getElementById(id).classList.toggle('hover');
+	}
+	
 	$scope.drop = function (property, column) {
 		console.log(arguments);
 		
@@ -450,6 +454,7 @@ robotDashboard.controller('RobotUpdater', function ($scope, $http, localStorageS
 
 robotDashboard.controller('AddPropertyController', function ($scope, $http, localStorageService) {
 
+	$scope.bob = true;
     $scope.robot = {
   	  name: "Loading...",
   	  description: "",
@@ -461,6 +466,11 @@ robotDashboard.controller('AddPropertyController', function ($scope, $http, loca
 		description: "",
 		resourcePath: "",
 		propertyType: "",
+		data: {
+			min: 0,
+			max: 1,
+			value: Math.random()
+		},
 		column:2
 	};
 	
@@ -476,6 +486,9 @@ robotDashboard.controller('AddPropertyController', function ($scope, $http, loca
   	  alert("Failure");
   	});
   
+	$scope.change = function () {
+		$scope.bob = !$scope.bob;
+	};
   
   $scope.addProperty = function () {
 	  console.log($scope.robot);

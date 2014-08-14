@@ -528,6 +528,22 @@ function createServer (db) {
 	});
 	
 	server.post('/robot/property/collection/update', function (req, res, next) {
+
+		// {
+		//     "msgID": 1407957959032,
+		//     "timeStamp": 1407957959032,
+		//     "name": "webgui",
+		//     "sender": "arduino",
+		//     "sendingMethod": "publishPin",
+		//     "historyList": ["webgui"],
+		//     "method": "publishPin",
+		//     "data": [{
+		//         "pin": 3,
+		//         "type": 2,
+		//         "value": 0,
+		//         "source": "arduino"
+		//     }]
+		// }
 		console.log("Robot Property Collection", req.params);
 		res.send(200, req.params);
 		next();

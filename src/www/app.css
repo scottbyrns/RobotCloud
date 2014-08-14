@@ -220,13 +220,25 @@ ul.robot-list {
 
 
 
+meter {
+	width:80%;
+	margin:10%;
+	height:20px;
+}
 
+.min {
+	text-align:center;
+}
+.max {
+	text-align:center;	
+}
 
 
 .robot-property {
-	max-width:80%;
-	margin-left:10%;
-	margin-right:10%;
+/*	max-width:80%;*/
+/*	margin-left:10%;*/
+/*	margin-right:10%;*/
+
 	-webkit-box-shadow: 1px 1px 15px 0px rgba(155,155,155, 0.75);
 	-moz-box-shadow:    1px 1px 15px 0px rgba(155,155,155, 0.75);
 	box-shadow:         1px 1px 15px 0px rgba(155,155,155, 0.75);
@@ -276,4 +288,63 @@ ul.robot-list {
 	border:1px solid #CCC;
 	background-color:#FAFAFA;
 	height:30%;
+}
+
+
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000;
+}
+	/* flip the pane when hovered */
+.flip-container.hover .flipper {
+		transform: rotateY(180deg);
+	}
+
+.flip-container, .front, .back {
+max-width: 80%;
+min-width:80%;
+margin-left: 10%;
+margin-right: 10%;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+}
+
+.flip-container .back {
+	height:0;
+	overflow:hidden;
+}
+
+.flip-container.hover .front {
+	height:0;
+	overflow:hidden;
+	
+}
+
+.flip-container.hover .back {
+	height:auto;
+}
+
+
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
 }
