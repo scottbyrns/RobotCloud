@@ -1,0 +1,56 @@
+<html ng-app="RobotDashboard">
+
+<head>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+	
+<link rel="stylesheet" type="text/css" href="app.css">
+<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+
+<body ng-controller="AccountController">
+	
+
+<header ng-include="'views/header.html'" ng-controller="CareTakerController"></header>
+
+
+
+<section ng-controller="AddPropertyController">
+
+	
+
+	<h1>Add Property</h1>
+
+	<section id="active-robots">
+
+
+	<form class="form-horizontal" role="form" ng-model="robot">
+					  <div ng-include="'views/PropertyForm.html'" ng-controller="CareTakerController"></div>
+	  
+
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <button type="submit" class="btn btn-default" ng-click="addProperty()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+	    </div>
+	  </div>
+	</form>
+
+
+	</section>
+	
+	
+</section>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<script src="libs/bootstrap.min.js"></script>
+	<script src="libs/angular-local-storage.js"></script>
+
+	<script src="js/RobotCloudDataProvider.js"></script>
+	
+<script src="app.js">
+</script>
+
+</body>

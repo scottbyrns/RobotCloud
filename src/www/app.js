@@ -263,6 +263,29 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
       return $sce.trustAsResourceUrl(src);
     }
 	
+	$scope.removeProperty = function (id) {
+		
+
+		for (var i = 0, len = $scope.robot.properties.length; i < len; i += 1) {
+			
+			if ($scope.robot.properties[i].id == id) {
+
+				$scope.robot.properties.splice(i, 1);
+				i-=1;
+				len -=1;
+
+			}
+			
+		}
+		
+		$scope.updateColumns(function () {
+			// alert("Success");
+		}, function () {
+			alert("Failure");
+		});
+		
+	};
+	
 	$scope.updateProperty = function (id) {
 		$scope.updateColumns(function () {
 			document.getElementById(id).classList.toggle('hover');
