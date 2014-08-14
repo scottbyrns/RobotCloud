@@ -263,6 +263,15 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
       return $sce.trustAsResourceUrl(src);
     }
 	
+	$scope.updateProperty = function (id) {
+		$scope.updateColumns(function () {
+			document.getElementById(id).classList.toggle('hover');
+		}, function () {
+			alert("error");
+		});
+
+	};
+	
 	$scope.click = function (id) {
 		document.getElementById(id).classList.toggle('hover');
 	}
@@ -280,12 +289,16 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 			
 		}
 		
-		$scope.updateColumns();
+		$scope.updateColumns(function () {
+
+		}, function () {
+			alert("error");
+		});
 		
 		// console.log($scope.robot);
 	}
 	
-	$scope.updateColumns = function () {
+	$scope.updateColumns = function (success, failure) {
 		
 		var bot = $scope.robot;
 		// delete bot.$$hasKey;
@@ -302,10 +315,15 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 		      data: $.param({robot:bot, token:localStorageService.get("authkey")}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function (data) {
+			if (typeof success === 'function') {
+				success();
+			}
 			console.log("Robots", data)
 			// $scope.robot = data;
 		}).error(function (data) {
-		  alert("Failure");
+			if (typeof failure === 'function') {
+					failure();
+			}
 		});
 	};
   
