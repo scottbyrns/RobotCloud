@@ -143,7 +143,7 @@
 				</div>
 				<div class="property-overview">
 					<div ng-if="property.propertyType == 'image'">
-						<img src="{{property.resourcePath}}" />
+						<img src="{{property.resourcePath}}" class="image-property" />
 					</div>
 					<div ng-if="(property.propertyType == 'remote-content')">
 <iframe width="100%" height="302" src="{{trustSrc(property.resourcePath)}}" scrolling="no" frameborder="0" style="border: 0px none transparent;">    </iframe>
