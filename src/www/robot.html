@@ -27,10 +27,15 @@
   
 	  </div>
 	  <div class="col-xs-6 col-md-4 hidden-xs">
-		  <p>
-			  <h5>Unique ID</h5>
-			  {{robot.id}}
-		  </p>
+		  
+		  <h4 style="text-transform:capitalize">{{robot.weather.weather[0].description}}</h4>
+		  <h5 style="text-transform:capitalize">{{robot.weather.clouds.all}}% Cloud Cover</h5>
+		  <h5 style="text-transform:capitalize">{{robot.weather.main.temp - 273.15}} C</h5>
+		  <h5 style="text-transform:capitalize">{{robot.weather.main.humidity}}% Humidity</h5>
+		  <h5 style="text-transform:capitalize">{{robot.weather.main.grnd_level}} hPa</h5>
+		  <h5 style="text-transform:capitalize">Wind {{robot.weather.wind.speed}} mph</h5>
+		  <h5 style="text-transform:capitalize">Wind Direction {{robot.weather.wind.deg}} degrees</h5>
+		  <!-- <h5 style="text-transform:capitalize">3 Hour Percipitation {{robot.weather.rain.3h}} mm</h5> -->
 
 	  </div>
 	</div>
@@ -147,7 +152,6 @@
 					</div>
 					<div ng-if="property.propertyType == 'gps'">
 					<img src="http://maps.googleapis.com/maps/api/staticmap?center={{property.location.latitude}},{{property.location.longitude}}&markers=color:blue%7Clabel:•%7C{{property.location.latitude}},{{property.location.longitude}}&zoom=12&size=400x400&maptype=satellite&key={{mapKey}}" class="image-property" />
-						<img src="{{property.resourcePath}}" class="image-property" />
 					</div>
 
 					<div ng-if="(property.propertyType == 'remote-content')">

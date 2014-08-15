@@ -293,6 +293,30 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 	}).success(function (data) {
 		console.log("Robots", data)
 		$scope.robot = data;
+		// http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&APPID=30c045f846a693c9cc374d7735520633
+		for (var i = 0, len = $scope.robot.properties.length; i < len; i += 1) {
+			if ($scope.robot.properties[i].location && $scope.robot.properties[i].location.latitude != 0) {
+				var index = i;
+			  	$http({
+					method: 'GET',
+					url: "http://api.openweathermap.org/data/2.5/weather",
+				      params: {
+						  lat:$scope.robot.properties[i].location.latitude,
+						  lon:$scope.robot.properties[i].location.longitude,
+						  APPID: "30c045f846a693c9cc374d7735520633"
+					  }
+					// headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).success(function (data) {
+					$scope.robot.weather = data;
+					console.log("Weather", data)
+
+				}).error(function (data) {
+				  alert("Failure");
+				});
+				
+			}
+		}
+		
 	}).error(function (data) {
 	  alert("Failure");
 	});
