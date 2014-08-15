@@ -12,10 +12,29 @@
 
 <header ng-include="'views/header.html'" ng-controller="CareTakerController"></header>
 
+<nav class="page-title">
+	<div class="row">
+		<div class="col-md-4 hidden-xs">
+			<h1>Robots</h1>
+			<p>
+				All of your robots are listed here so you can easily manage them.
+			</p>
+		</div>
+		<!-- <div class="col-md-2 center">
+			<div class="btn-group pull-right">
+			  <button type="button" class="btn btn-lg btn-primary" ng-click="addRobot()">
+				  <span class="glyphicon glyphicon-plus hidden-xs"></span> Add Robot
+			  </button>
+			</div>
+		</div> -->
+	</div>
+	
+</nav>
+
 <section id="active-robots" ng-controller="RobotsList">
 	<!-- <div class="row"> -->
 	  <!-- <div class="col-md-3"> -->
-	<h3>Robots</h3>
+
 	  <!-- </div> -->
 
 	<!-- </div> -->
