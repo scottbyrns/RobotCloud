@@ -17,7 +17,8 @@
 
 <nav id="robot-overview" ng-controller="RobotOverviewController">
 
-	<div class="row">
+	<img class="parallax" src="/images/overview.jpg" ng-controller="RobotDashboardController" du-parallax y="background" alt="" />
+	<div class="row" ng-controller="RobotDashboardController" du-parallax y="foreground">
 	  <div class="col-xs-12 col-md-8">
 	  	<img src="{{robot.avatar}}" class="robot-avatar hidden-xs" />
 	  	<h1>{{robot.name}}</h1>
@@ -213,17 +214,21 @@
 </div>
 
 		  </div>
-	
+
 	</section>
 </section>
 
 
 	<script src="libs/angular.min.js"></script>
+
 	<script src="libs/jquery-2.1.1.min.js"></script>
 
 	<script src="libs/bootstrap.min.js"></script>
 	<script src="libs/angular-local-storage.js"></script>
+		<!-- 	<script src="http://durated.github.io/angular-scroll/0.5.1/angular-scroll.min.js"></script>
+	<script src="http://durated.github.io/angular-parallax/angular-parallax.min.js"></script>	 -->
 	<script src="js/RobotCloudDataProvider.js"></script>
-	<script src="app.js">
-	</script>
+
+	<script src="app.js"></script>
+	<script src="js/RobotDashboardController.js"></script>
 </body>

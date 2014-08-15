@@ -8,7 +8,7 @@ var Server = {
 // }
 
 
-var robotDashboard = angular.module('RobotDashboard', ['ngSanitize', 'LocalStorageModule', 'RobotCloudDataProvider']);
+window.robotDashboard = angular.module('RobotDashboard', ['duParallax', 'ngSanitize', 'LocalStorageModule', 'RobotCloudDataProvider']);
 
 
 robotDashboard.directive('draggable', function() {
@@ -180,6 +180,10 @@ robotDashboard.controller('RobotMap', function ($scope, $http, localStorageServi
 robotDashboard.controller('CareTakerController', function ($scope, $http, localStorageService) {
 	
 	$scope.subViews = {
+		docs: {
+			template: '/views/Docs.html',
+			active: false,
+		},
 		map: {
 			template: '/views/RobotMap.html',
 			active: false,
@@ -347,6 +351,10 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 		});
 		
 	};
+	
+	$scope.fullScreen = function (id) {
+		document.getElementById(id).classList.toggle('fullscreen');		
+	}
 	
 	$scope.updateProperty = function (id) {
 		$scope.updateColumns(function () {

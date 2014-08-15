@@ -1,0 +1,41 @@
+<h1>
+	Documentation
+</h1>
+
+<ol>
+	<li>
+		Web Services
+	</li>
+</ol>
+
+
+<article>
+	<h2>Web Services</h2>
+	<ul>
+		<li>
+			<h3>/robot</h3>
+			<h4>/robot/create</h4>
+			<p>
+				To create a robot you <strong>POST</strong> your token and the robot to the end point.
+			</p>
+			<code>
+				<pre>
+				        params: {
+				            robot: {
+				                name: 'name',
+				                description: 'desc',
+				                avatar: '/images/robot.jpg'
+				            },
+				            token: '6E5A95D2-B066-D1C7-C849-1983B4ACDEA3'
+				        },
+				        route: {
+				            path: '/robot/create',
+				            method: 'POST'				        }
+				</pre>
+			</code>
+		</li>
+	</ul>
+	<p>
+		
+	</p>
+</article>
