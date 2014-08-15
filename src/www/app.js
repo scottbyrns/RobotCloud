@@ -126,7 +126,7 @@ robotDashboard.controller('RobotProperties', function ($scope, $http, localStora
 
 
 robotDashboard.controller('AccountController', function ($scope, $http, localStorageService, robotCloudDataProvider) {
-	
+		$scope.mapKey = "AIzaSyAO5e-qUqSOSiDbSiwyWLCYNmy0yqp8mRY";
 	// console.log("LocalStoreService", localStorageService);
 	
 	if (robotCloudDataProvider.userIsAuthenticated() && document.getElementById("login-form")) {
@@ -174,7 +174,7 @@ robotDashboard.controller('AccountController', function ($scope, $http, localSto
 });
 
 robotDashboard.controller('RobotMap', function ($scope, $http, localStorageService) {
-	$scope.mapKey = "AIzaSyD7xE8sOjQDByoIgCcv-xxpYvpLxCrm4_4";
+
 });
 
 robotDashboard.controller('CareTakerController', function ($scope, $http, localStorageService) {
@@ -549,6 +549,10 @@ robotDashboard.controller('AddPropertyController', function ($scope, $http, loca
 			min: 0,
 			max: 1,
 			value: Math.random()
+		},
+		location: {
+			latitude: 0,
+			longitude: 0
 		},
 		column:2
 	};

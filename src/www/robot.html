@@ -1,4 +1,4 @@
-<html ng-app="RobotDashboard">
+<html ng-app="RobotDashboard" ng-controller="AccountController">
 
 <head>
 
@@ -11,7 +11,7 @@
 </head>
 
 <body ng-controller="RobotOverviewController">
-<input type="hidden" ng-controller="AccountController" />
+<input type="hidden"  />
 
 <header ng-include="'views/header.html'" ng-controller="CareTakerController"></header>
 
@@ -145,11 +145,17 @@
 					<div ng-if="property.propertyType == 'image'">
 						<img src="{{property.resourcePath}}" class="image-property" />
 					</div>
+					<div ng-if="property.propertyType == 'gps'">
+					<img src="http://maps.googleapis.com/maps/api/staticmap?center={{property.location.latitude}},{{property.location.longitude}}&markers=color:blue%7Clabel:•%7C{{property.location.latitude}},{{property.location.longitude}}&zoom=12&size=400x400&maptype=satellite&key={{mapKey}}" class="image-property" />
+						<img src="{{property.resourcePath}}" class="image-property" />
+					</div>
+
 					<div ng-if="(property.propertyType == 'remote-content')">
 <iframe width="100%" height="302" src="{{trustSrc(property.resourcePath)}}" scrolling="no" frameborder="0" style="border: 0px none transparent;">    </iframe>
 
 						
 					</div>
+					
 					<div ng-if="(property.propertyType == 'analog')">
 
 						<meter value="{{property.data.value}}"></meter>
