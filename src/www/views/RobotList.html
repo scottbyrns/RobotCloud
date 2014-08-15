@@ -1,0 +1,18 @@
+	<!-- <div class="row"> -->
+	  <!-- <div class="col-md-3"> -->
+
+	  <!-- </div> -->
+
+	<!-- </div> -->
+	<ul class="robot-list">
+		
+		<li data-ng-repeat="robot in robots" ng-click="showRobot($index)">
+			<img src="{{robot.avatar}}" class="robot-avatar" />
+			<h2>{{robot.name}}</h2>
+			<p>
+				{{robot.description}}
+			</p>	
+		</li>
+		
+	</ul>
+	

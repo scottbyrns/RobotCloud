@@ -173,7 +173,45 @@ robotDashboard.controller('AccountController', function ($scope, $http, localSto
 	
 });
 
+robotDashboard.controller('RobotMap', function ($scope, $http, localStorageService) {
+	$scope.mapKey = "AIzaSyD7xE8sOjQDByoIgCcv-xxpYvpLxCrm4_4";
+});
+
 robotDashboard.controller('CareTakerController', function ($scope, $http, localStorageService) {
+	
+	$scope.subViews = {
+		map: {
+			template: '/views/RobotMap.html',
+			active: false,
+			initialized: false
+		},
+		list: {
+			template: '/views/RobotList.html',
+			active: true
+		}
+	};
+	
+	$scope.showView = function(name) {
+		
+		for (var view in $scope.subViews) {
+			try {
+				$scope.subViews[view].active = false;
+			}
+			catch (e){
+				alert(e)
+			}
+		}
+
+		$scope.subViews[name].active = true;
+		if (name == "map") {
+			if (!$scope.subViews[name].initialized) {
+				$scope.subViews[name].initialized = !$scope.subViews[name].initialized;
+				initialize()
+			}
+
+		}
+	}
+	
   $scope.caretaker = {
 	  name: "",
 	  credentials: {
