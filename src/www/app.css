@@ -20,7 +20,6 @@ header {
 	color:#FAFAFA;
 /*	position:fixed;*/
 /*	top:0;*/
-	width:100%;
 
 	min-height:60px;
 	background: #3f3f3f;
@@ -33,7 +32,9 @@ header {
 	background: linear-gradient(to bottom, #696969 0%, #3f3f3f 100%);
 	background: -webkit-linear-gradient(top, #696969 0%,#3f3f3f 100%)
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#696969', endColorstr='#3f3f3f', GradientType=0 );
+	overflow:hidden;
 }
+
 
 header .controls {
 	padding:12px;
