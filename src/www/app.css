@@ -4,7 +4,7 @@ h3 {text-transform:capitalize;}
 body {
 	margin:0px;
 	padding:0px;
-	padding-top:60px;
+/*	padding-top:60px;*/
 	overflow-x:hidden;
 	max-width:100%;
 	
@@ -18,8 +18,8 @@ header {
 /*	opacity:0.9;*/
 	z-index:9999;
 	color:#FAFAFA;
-	position:fixed;
-	top:0;
+/*	position:fixed;*/
+/*	top:0;*/
 	width:100%;
 
 	min-height:60px;
@@ -303,7 +303,7 @@ meter {
 .login-container {
 
 	margin:20px;
-	margin-top:-40px;
+/*	margin-top:-40px;*/
 /*	border:1px solid;*/
 	background:#FAFAFA;
 	padding:20px;
