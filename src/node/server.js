@@ -505,19 +505,19 @@ function createServer(db) {
 
                 var log = req.params.log;
                 // robot.id = guid();
-                console.log("Property", log);
-
+                // console.log("Property", log);
+				// console.log(req.params.robot.id);
 
                 db.find({
                     "robots.id": req.params.robot.id
                 }, function(err, doc) {
-                    console.log(arguments)
+                    // console.log(arguments)
                     if (doc.length > 0) {
                         res.setHeader('Access-Control-Allow-Origin', '*');
                         for (var i = 0, len = doc[0].robots.length; i < len; i += 1) {
                             if (doc[0].robots[i].id == req.params.robot.id) {
                                 doc[0].robots[i].log = doc[0].robots[i].log || [];
-                                property.id = guid();
+                                log.id = guid();
                                 doc[0].robots[i].log.push(log);
 
                                 db.update({
