@@ -495,6 +495,72 @@ function createServer(db) {
         });
 
     });
+	
+	
+    server.post('/robot/log/create', function(req, res, next) {
+        // http://sohowww.nascom.nasa.gov/data/realtime/eit_171/512/latest.jpg
+
+        validateToken(req.params.token, function(valid) {
+            if (valid) {
+
+                var log = req.params.log;
+                // robot.id = guid();
+                console.log("Property", log);
+
+
+                db.find({
+                    "robots.id": req.params.robot.id
+                }, function(err, doc) {
+                    console.log(arguments)
+                    if (doc.length > 0) {
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                        for (var i = 0, len = doc[0].robots.length; i < len; i += 1) {
+                            if (doc[0].robots[i].id == req.params.robot.id) {
+                                doc[0].robots[i].log = doc[0].robots[i].log || [];
+                                property.id = guid();
+                                doc[0].robots[i].log.push(log);
+
+                                db.update({
+                                    "robots.id": req.params.robot.id
+                                }, doc, {}, function(err, numberUpdated) {
+
+                                    if (!err && numberUpdated > 0) {
+                                        res.setHeader('Access-Control-Allow-Origin', '*');
+                                        res.send(201, log);
+                                        next();
+                                    } else {
+                                        res.setHeader('Access-Control-Allow-Origin', '*');
+                                        res.send(500, req.params);
+                                        next();
+                                    }
+
+                                })
+
+
+                            }
+
+                        }
+                        // return next();
+                    } else {
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                        res.send(500, API.NotAuthorized);
+                        next();
+                    }
+
+
+                })
+
+
+
+
+            } else {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.send(400, API.NotAuthorized);
+                next();
+            }
+        });
+
+    });
 
 
 
@@ -640,6 +706,11 @@ function createServer(db) {
             // res.send(201, true)
             // })
         })
+		
+		
+		
+		
+		
 
 
     server.listen(9392, function() {
