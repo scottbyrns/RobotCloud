@@ -239,7 +239,8 @@ function createServer(db) {
                 }, {}, function(err, numReplaced) {
                     if (numReplaced == 1) {
                         res.setHeader('Access-Control-Allow-Origin', '*');
-                        res.send(200, token);
+						req.params.token = token;
+                        res.send(200, req.params);
                         return next();
                     } else {
                         res.setHeader('Access-Control-Allow-Origin', '*');
