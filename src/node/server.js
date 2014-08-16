@@ -240,6 +240,7 @@ function createServer(db) {
                     if (numReplaced == 1) {
                         res.setHeader('Access-Control-Allow-Origin', '*');
 						req.params.token = token;
+						delete req.params.password;
                         res.send(200, req.params);
                         return next();
                     } else {
