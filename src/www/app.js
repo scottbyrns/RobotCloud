@@ -437,6 +437,7 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 		for (var i = 0, len = properties.length; i < len; i += 1) {
 			
 			if (properties[i].id == property) {
+
 				properties[i].column = column * 1;
 
 			}
@@ -458,10 +459,23 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 		// delete bot.$$hasKey;
 
 		for (var i = 0, len = bot.properties.length; i < len; i += 1) {
-
+			
+			bot.properties[i].column = bot.properties[i].column || 2;
+			bot.properties[i].resourcePath = bot.properties[i].resourcePath || "";
 			delete bot.properties[i]['$$hashKey'];
 
+
 		}
+		
+		if (bot.log) {
+			for (var j = 0, len = bot.log.length; j < len; j += 1) {
+		
+				delete bot.log[j]['$$hashKey'];
+
+			}
+		}
+		
+		console.log("Robot To Update", bot);
 		
 	  	$http({
 			method: 'POST',
