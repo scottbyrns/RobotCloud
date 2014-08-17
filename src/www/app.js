@@ -666,6 +666,27 @@ robotDashboard.controller('AddPropertyController', function ($scope, $http, loca
 	$scope.change = function () {
 		$scope.bob = !$scope.bob;
 	};
+	
+	$scope.addExtra = function (which) {
+		switch (which) {
+		case "logging":
+			
+			$scope.property = {
+				name: "Message Log",
+				description : "Messages logged directly to the cloud.",
+				propertyType: "logging",
+				data: {},
+				column: 2
+			};
+			
+			$scope.addProperty();
+			
+			break;
+		case "weather":
+			break;
+			
+		}
+	}
   
   $scope.addProperty = function () {
 	  console.log($scope.robot);

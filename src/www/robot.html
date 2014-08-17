@@ -148,6 +148,15 @@
 					</h3>
 				</div>
 				<div class="property-overview">
+					
+					<div ng-if="property.propertyType == 'logging'">
+						<table>
+							<tr ng-repeat="log in robot.log">
+								<td>{{log.message}}</td>
+							</tr>
+						</table>
+					</div>
+					
 					<div ng-if="property.propertyType == 'image'">
 						<img src="{{property.resourcePath}}" class="image-property" />
 					</div>
