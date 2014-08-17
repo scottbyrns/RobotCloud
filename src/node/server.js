@@ -67,6 +67,28 @@ function createServer(db) {
         return result;
     }
 
+    server.post('/public/robots/list', function(req, res, next) {
+        //
+        // 	    res.setHeader('Access-Control-Allow-Origin','*');
+        // 	    res.send(201, "");
+        //
+        // return next();
+
+        db.find({
+
+        }, function(err, doc) {
+			var out = [];
+			for (var i = 0, len = doc.length; i < len; i += 1) {
+				out = out.concat(doc[i].robots);
+			}
+
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.send(201, out);
+			
+            return next();
+        })
+
+    });
 
     server.post('/robots/list', function(req, res, next) {
         //

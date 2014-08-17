@@ -178,6 +178,65 @@ robotDashboard.controller('RobotMap', function ($scope, $http, localStorageServi
 
 });
 
+
+robotDashboard.controller('PublicRobotsController', function ($scope, $http, localStorageService) {
+	
+	$scope.robots = [];
+	
+	$scope.subViews = {
+		
+		map: {
+			template: '/views/RobotMap.html',
+			active: false,
+			initialized: false
+		},
+		list: {
+			template: '/views/RobotList.html',
+			active: true
+		}
+		
+	};
+	
+	$scope.showView = function(name) {
+		
+		for (var view in $scope.subViews) {
+			try {
+				$scope.subViews[view].active = false;
+			}
+			catch (e){
+				alert(e)
+			}
+		}
+
+		$scope.subViews[name].active = true;
+		if (name == "map") {
+			if (!$scope.subViews[name].initialized) {
+				$scope.subViews[name].initialized = !$scope.subViews[name].initialized;
+				initialize()
+			}
+
+		}
+	}
+
+  
+  $http({
+	method: 'POST',
+	url: "http://" + Server.path + ":" + Server.port + "/public/robots/list",
+	data: {},
+	headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function (data) {
+		
+		$scope.robots = data;
+		
+  }).error(function () {
+	  alert("Failure");
+  })
+  
+	
+});
+
+
+
 robotDashboard.controller('CareTakerController', function ($scope, $http, localStorageService) {
 	
 	$scope.subViews = {

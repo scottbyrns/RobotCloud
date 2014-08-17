@@ -1,4 +1,4 @@
-<html ng-app="RobotDashboard" ng-controller="AccountController">
+<html ng-app="RobotDashboard">
 
 <head>
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
@@ -7,17 +7,19 @@
 <link rel="stylesheet" type="text/css" href="libs/bootstrap.min.css">
 </head>
 
-<body ng-controller="CareTakerController">
+<body ng-controller="PublicRobotsController">
 	
 
-<header ng-include="'views/header.html'" ng-controller="CareTakerController"></header>
+<header>
+	
+</header>
 
 <nav class="page-title hidden-xs">
 	<div class="row">
 		<div class="col-md-4 hidden-xs">
-			<h1>Robots</h1>
+			<h1>Browse Robots</h1>
 			<p>
-				All of your robots are listed here so you can easily manage them.
+				Public robots n' such....
 			</p>
 		</div>
 		<!-- <div class="col-md-2 center">
@@ -42,23 +44,18 @@
 			  <div class="btn-group">
 			    <button type="button" class="btn btn-default {{subViews.list.active?'active':''}}" ng-click="showView('list')">List</button>
 			  </div>
-			  <div class="btn-group">
-			    <button type="button" class="btn btn-default {{subViews.docs.active?'active':''}}" ng-click="showView('docs')">Documentation</button>
-			  </div>
 			</div>
 		</div>
 		<div class="col-md-4"></div>
 	</div>
 </section>
 
-<section id="active-robots" ng-controller="RobotsList" ng-show="(subViews.list.active)" ng-include="subViews.list.template">
+<section id="active-robots" ng-show="(subViews.list.active)" ng-include="subViews.list.template">
 </section>
 
-<section id="robot-map" ng-controller="RobotMap" ng-show="(subViews.map.active)" ng-include="subViews.map.template">
+<section id="robot-map" ng-show="(subViews.map.active)" ng-include="subViews.map.template">
 </section>
 
-<section id="docs" ng-show="(subViews.docs.active)" ng-include="subViews.docs.template">
-</section>
 
 
 
