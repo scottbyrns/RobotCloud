@@ -159,9 +159,10 @@ robotDashboard.controller('AccountController', function ($scope, $http, localSto
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).success(function (data) {
 				
-				localStorageService.set("authkey", data.replace("\"", '').replace("\"", ''));
+				localStorageService.set("authkey", data.token.replace("\"", '').replace("\"", ''));
 				localStorageService.set("username", $scope.username);
 				window.location.href = "caretaker.html";
+				
 		  }).error(function () {
 			  alert("Failure");
 		  });
@@ -298,6 +299,7 @@ robotDashboard.controller('RobotOverviewController', function ($scope, $http, lo
 		console.log("Robots", data)
 		$scope.robot = data;
 		// http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&APPID=30c045f846a693c9cc374d7735520633
+		$scope.robot.properties = $scope.robot.properties || [];
 		for (var i = 0, len = $scope.robot.properties.length; i < len; i += 1) {
 			if ($scope.robot.properties[i].location && $scope.robot.properties[i].location.latitude != 0) {
 				var index = i;
@@ -498,7 +500,8 @@ robotDashboard.controller('RobotCreator', function ($scope, $http, localStorageS
   $scope.robot = {
 	  name: "",
 	  description: "",
-	  avatar: "/images/robot.jpg"
+	  avatar: "/images/robot.jpg",
+	  type: ""
   };
   
   $scope.addRobot = function () {
